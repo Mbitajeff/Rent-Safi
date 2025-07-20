@@ -16,9 +16,7 @@ RentSafi is a full-stack MERN application for the Kenyan rental market. It conne
 
 - ![Home Page](client/public/screenshots/home.png)
 - ![Property Search](client/public/screenshots/search.png)
-- ![Booking Modal](client/public/screenshots/booking.png)
 - ![Dashboard](client/public/screenshots/dashboard.png)
-- ![Chat](client/public/screenshots/chat.png)
 
 ---
 
