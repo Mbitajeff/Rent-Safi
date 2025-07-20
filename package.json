@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "multer-storage-cloudinary": "^4.0.0",
+    "react-youtube": "^10.1.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
