@@ -38,6 +38,53 @@ api.interceptors.response.use(
   }
 );
 
+// Auth API services
+export const authService = {
+  // Register a new user
+  register: async (userData) => {
+    const response = await api.post('/auth/register', userData);
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+    return response.data;
+  },
+
+  // Login user
+  login: async (credentials) => {
+    const response = await api.post('/auth/login', credentials);
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+    return response.data;
+  },
+
+  // Logout user
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  },
+
+  // Get current user
+  getCurrentUser: async () => {
+    const response = await api.get('/auth/me');
+    return response.data;
+  },
+
+  // Update user details
+  updateUserDetails: async (userData) => {
+    const response = await api.put('/auth/updatedetails', userData);
+    return response.data;
+  },
+
+  // Update password
+  updatePassword: async (passwordData) => {
+    const response = await api.put('/auth/updatepassword', passwordData);
+    return response.data;
+  },
+};
+
 // Property API services
 export const propertyService = {
   // Get all properties with optional pagination and filters
@@ -107,53 +154,6 @@ export const propertyService = {
   // Report a property
   reportProperty: async (propertyId, reportData) => {
     const response = await api.post(`/properties/${propertyId}/report`, reportData);
-    return response.data;
-  },
-};
-
-// Auth API services
-export const authService = {
-  // Register a new user
-  register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    return response.data;
-  },
-
-  // Login user
-  login: async (credentials) => {
-    const response = await api.post('/auth/login', credentials);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    return response.data;
-  },
-
-  // Logout user
-  logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  },
-
-  // Get current user
-  getCurrentUser: async () => {
-    const response = await api.get('/auth/me');
-    return response.data;
-  },
-
-  // Update user details
-  updateUserDetails: async (userData) => {
-    const response = await api.put('/auth/updatedetails', userData);
-    return response.data;
-  },
-
-  // Update password
-  updatePassword: async (passwordData) => {
-    const response = await api.put('/auth/updatepassword', passwordData);
     return response.data;
   },
 };
