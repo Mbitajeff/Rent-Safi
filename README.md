@@ -16,15 +16,15 @@ RentSafi is a full-stack MERN application for the Kenyan rental market. It conne
 
 - ![Home Page](client/public/screenshots/home.png)
 - ![Property Search](client/public/screenshots/search.png)
+- ![Booking Modal](client/public/screenshots/booking.png)
 - ![Dashboard](client/public/screenshots/dashboard.png)
+- ![Chat](client/public/screenshots/chat.png)
 
 ---
 
 ## 🎥 Video Demonstration
 
-> _Add a link to your 5-10 minute video demo here._
-
-[![Watch the demo](https://img.youtube.com/vi/your_video_id/0.jpg)](https://youtube.com/your_video_link)
+[![Watch the demo](https://img.youtube.com/vi/H8S2EkUk6qQ/0.jpg)](https://youtu.be/H8S2EkUk6qQ)
 
 ---
 
@@ -86,10 +86,57 @@ cd Rent-Safi
 
 ---
 
-## 📚 More Documentation
-- [API Documentation](#) <!-- Add link or section -->
-- [User Guide](#) <!-- Add link or section -->
-- [Technical Architecture](#) <!-- Add link or section -->
+## 📚 API Documentation
+
+### Authentication
+- `POST /api/auth/register` — Register a new user
+- `POST /api/auth/login` — Login and receive JWT
+- `GET /api/auth/me` — Get current user info
+
+### Properties
+- `GET /api/properties/search` — Search properties
+- `POST /api/properties/:id/favorite` — Add to favorites
+- `DELETE /api/properties/:id/favorite` — Remove from favorites
+
+### Messages
+- `POST /api/messages` — Send a message or viewing request
+
+(Expand with request/response examples as needed)
+
+---
+
+## 👤 User Guide
+
+### For Tenants
+- Register and log in as a tenant.
+- Search for properties using filters.
+- Add properties to your cart/favorites.
+- Request viewings and chat with landlords.
+- Manage your bookings and favorites from your dashboard.
+
+### For Landlords
+- Register and log in as a landlord.
+- List new properties for rent.
+- View and respond to booking/viewing requests.
+- Chat with tenants in real time.
+- Manage your property listings from your dashboard.
+
+---
+
+## 🏗️ Technical Architecture Overview
+
+- **Frontend:** React (Vite), deployed on Vercel
+- **Backend:** Node.js/Express, deployed on Render
+- **Database:** MongoDB Atlas
+- **Real-time:** Socket.io for chat and notifications
+
+```mermaid
+flowchart TD
+  A[Frontend (Vercel)] -- REST/Socket.io --> B[Backend (Render)]
+  B -- MongoDB Driver --> C[(MongoDB Atlas)]
+  A -- Auth (JWT) --> B
+  B -- Static/Image Uploads --> D[(Cloudinary)]
+```
 
 ---
 
