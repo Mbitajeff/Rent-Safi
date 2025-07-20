@@ -52,6 +52,7 @@ app.use('/api/', limiter);
 app.use(cors({
   origin: [
     'https://rent-safi-git-main-jeff-mbitas-projects.vercel.app',
+    'https://rent-safi-d1tr35vya-jeff-mbitas-projects.vercel.app',
     'http://localhost:3000'
   ],
   credentials: true,
