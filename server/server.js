@@ -50,7 +50,10 @@ app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: [
+    'https://rent-safi-git-main-jeff-mbitas-projects.vercel.app',
+    'http://localhost:3000'
+  ],
   credentials: true,
 }));
 
