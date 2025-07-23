@@ -110,6 +110,34 @@ exports.getProperty = async (req, res, next) => {
 // @access  Private (Landlords only)
 exports.createProperty = async (req, res, next) => {
   try {
+    // Allow flexible mapping for location fields
+    req.body.location = {
+      area: req.body['location[area]'] || req.body.area || req.body.location?.area,
+      city: req.body['location[city]'] || req.body.city || req.body.location?.city,
+      address: req.body['location[address]'] || req.body.address || req.body.location?.address,
+    };
+    // Parse numeric fields
+    req.body.price = Number(req.body.price);
+    req.body.bedrooms = Number(req.body.bedrooms);
+    req.body.bathrooms = Number(req.body.bathrooms);
+    req.body.size = Number(req.body.size);
+    // Parse amenities (array)
+    if (typeof req.body['amenities[]'] === 'string') {
+      req.body.amenities = [req.body['amenities[]']];
+    } else if (Array.isArray(req.body['amenities[]'])) {
+      req.body.amenities = req.body['amenities[]'];
+    } else {
+      req.body.amenities = [];
+    }
+
+    // Handle image upload
+    if (req.files && req.files.length > 0) {
+      req.body.images = req.files.map(file => ({
+        url: file.path,
+        publicId: file.filename,
+      }));
+    }
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

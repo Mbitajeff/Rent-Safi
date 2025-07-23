@@ -41,7 +41,7 @@ const Home = () => {
                 Browse Properties
               </Link>
               <Link
-                to="/register"
+                to="/create-property"
                 className="btn border-2 border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3 text-lg font-semibold"
               >
                 List Your Property

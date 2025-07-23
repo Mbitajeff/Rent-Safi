@@ -1,3 +1,4 @@
+require('dotenv').config({ path: __dirname + '/.env' });
 // server.js - Main server file for RentSafi application
 
 // Import required modules

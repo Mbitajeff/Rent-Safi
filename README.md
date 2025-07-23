@@ -12,8 +12,6 @@ RentSafi is a full-stack MERN application for the Kenyan rental market. It conne
 
 ## 📸 Screenshots
 
-> _Add screenshots of your Home page, property search, booking modal, dashboard, and chat here._
-
 - ![Home Page](client/public/screenshots/home.png)
 - ![Property Search](client/public/screenshots/search.png)
 - ![Booking Modal](client/public/screenshots/booking.png)
@@ -99,9 +97,7 @@ cd Rent-Safi
 - `DELETE /api/properties/:id/favorite` — Remove from favorites
 
 ### Messages
-- `POST /api/messages` — Send a message or viewing request
-
-(Expand with request/response examples as needed)
+- `POST /api/messages` — "Successfully booked viewing appointment"
 
 ---
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import MapGL, { Marker, Popup } from 'react-map-gl';
 import placeholderImg from '/placeholder-property.png';
 import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoibWFwYm94dXNlciIsImEiOiJja2x4b2Z2b3gwMDFwMnBvN2F2b2Z6b2JzIn0.2Qw1Qw1Qw1Qw1Qw1Qw1Qw1Q';
 
@@ -125,40 +126,40 @@ function Properties() {
       setViewingDate('');
       setViewingTime('');
       setViewingMessage('');
-      alert('Viewing request submitted! The landlord will be notified.');
+      toast.success('Successfully booked viewing appointment');
     } catch (err) {
       alert('Failed to submit viewing request. Please try again.');
     }
   };
 
   return (
-    <div>
+              <div>
       <h1>Find Properties in Nairobi</h1>
       {/* Search Bar & Filters */}
       <form
         style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap', alignItems: 'center' }}
         onSubmit={handleSearch}
       >
-        <input
-          type="text"
+                  <input
+                    type="text"
           placeholder="Search area, address..."
           value={search}
           onChange={e => setSearch(e.target.value)}
           style={{ flex: 2, minWidth: 180, padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
         />
-        <select
+                <select
           value={type}
           onChange={e => setType(e.target.value)}
           style={{ minWidth: 120, padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
-        >
-          <option value="">All Types</option>
-          <option value="apartment">Apartment</option>
-          <option value="house">House</option>
-          <option value="studio">Studio</option>
-          <option value="bedsitter">Bedsitter</option>
-          <option value="maisonette">Maisonette</option>
-          <option value="penthouse">Penthouse</option>
-        </select>
+                >
+                  <option value="">All Types</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="house">House</option>
+                  <option value="studio">Studio</option>
+                  <option value="bedsitter">Bedsitter</option>
+                  <option value="maisonette">Maisonette</option>
+                  <option value="penthouse">Penthouse</option>
+                </select>
         <input
           type="number"
           placeholder="Min Price"
@@ -166,15 +167,15 @@ function Properties() {
           onChange={e => setMinPrice(e.target.value)}
           style={{ width: 100, padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
         />
-        <input
-          type="number"
+                <input
+                  type="number"
           placeholder="Max Price"
           value={maxPrice}
           onChange={e => setMaxPrice(e.target.value)}
           style={{ width: 100, padding: 8, borderRadius: 4, border: '1px solid #ccc' }}
         />
-        <input
-          type="number"
+                <input
+                  type="number"
           placeholder="Bedrooms"
           value={bedrooms}
           onChange={e => setBedrooms(e.target.value)}
@@ -194,8 +195,8 @@ function Properties() {
           src="/nairobi-map.png"
           alt="Nairobi Map"
           style={{ width: '100%', maxWidth: 800, height: 400, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }}
-        />
-      </div>
+                />
+              </div>
 
       {/* Property List */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
@@ -264,7 +265,7 @@ function Properties() {
             </div>
           );
         })}
-      </div>
+        </div>
 
       {/* Viewing Request Modal */}
       {showModal && (
@@ -289,9 +290,9 @@ function Properties() {
                 <button type="button" style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: 4, padding: '8px 20px', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setShowModal(false)}>Cancel</button>
               </div>
             </form>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }

@@ -10,6 +10,7 @@ const {
   getAllUsersExceptCurrent,
 } = require('../controllers/auth');
 const { protect } = require('../middleware/auth');
+const { uploadSingle } = require('../utils/upload');
 
 const router = express.Router();
 
@@ -40,5 +41,6 @@ router.put('/updatedetails', protect, updateDetails);
 router.put('/updatepassword', protect, updatePasswordValidation, updatePassword);
 router.post('/logout', protect, logout);
 router.get('/users', protect, getAllUsersExceptCurrent);
+router.patch('/me', protect, uploadSingle, require('../controllers/auth').updateMe);
 
 module.exports = router; 

@@ -144,6 +144,26 @@ exports.updatePassword = async (req, res, next) => {
   }
 };
 
+// @desc    Update user details (PATCH /api/auth/me)
+// @route   PATCH /api/auth/me
+// @access  Private
+exports.updateMe = async (req, res, next) => {
+  try {
+    const updates = {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+    };
+    if (req.file) {
+      updates.profileImage = req.file.path;
+    }
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true, runValidators: true });
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Log user out / clear cookie
 // @route   POST /api/auth/logout
 // @access  Private

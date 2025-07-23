@@ -29,9 +29,9 @@ const upload = multer({
 });
 
 // Upload single image
-const uploadSingle = upload.single('image');
+const uploadSingle = upload.single('profileImage');
 
-// Upload multiple images
+// Upload multiple images (up to 10, field name 'images')
 const uploadMultiple = upload.array('images', 10);
 
 // Delete image from Cloudinary

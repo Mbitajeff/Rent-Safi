@@ -30,4 +30,23 @@ exports.createMessage = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+// @desc    Get all messages between current user and another user
+// @route   GET /api/messages?user=USER_ID
+// @access  Private
+exports.getMessages = async (req, res, next) => {
+  try {
+    const otherUserId = req.query.user;
+    if (!otherUserId) return res.status(400).json({ success: false, error: 'Missing user id' });
+    const messages = await Message.find({
+      $or: [
+        { sender: req.user._id, receiver: otherUserId },
+        { sender: otherUserId, receiver: req.user._id }
+      ]
+    }).sort('createdAt');
+    res.json({ success: true, data: messages });
+  } catch (error) {
+    next(error);
+  }
 }; 

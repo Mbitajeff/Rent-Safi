@@ -55,12 +55,21 @@ function Dashboard() {
     return ['private', ...[id1, id2].sort()].join(':');
   };
 
-  // Join private room when recipientId changes
+  // Join private room and fetch chat history when recipientId changes
   useEffect(() => {
     if (!user?._id || !recipientId) return;
     const privateRoom = getPrivateRoomId(user._id, recipientId);
     setRoomId(privateRoom);
     setMessages([]); // Clear messages when switching room
+    // Fetch chat history
+    const fetchHistory = async () => {
+      const token = localStorage.getItem('token');
+      const res = await axios.get(`/api/messages?user=${recipientId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMessages(res.data.data || []);
+    };
+    fetchHistory();
   }, [user?._id, recipientId]);
 
   useEffect(() => {
@@ -78,7 +87,7 @@ function Dashboard() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
     if (message.trim() && socket && roomId) {
       const data = {
@@ -89,6 +98,17 @@ function Dashboard() {
       };
       socket.emit('sendMessage', data);
       setMessages((prev) => [...prev, { ...data, self: true }]);
+      // Persist message to backend
+      const token = localStorage.getItem('token');
+      await axios.post('/api/messages', {
+        receiver: recipientId,
+        property: null, // Optionally pass property if context exists
+        subject: 'Chat',
+        content: message,
+        type: 'general',
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setMessage('');
     }
   };
@@ -107,7 +127,7 @@ function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      {/* Private Messaging Demo */}
+      {/* Private Messaging */}
       <div style={{ border: '1px solid #ccc', padding: 16, marginTop: 24, maxWidth: 400 }}>
         <h2>Private Chat</h2>
         <div style={{ marginBottom: 8 }}>
@@ -132,9 +152,9 @@ function Dashboard() {
             <div style={{ fontSize: 12, color: '#888', marginBottom: 4 }}>Room: {roomId}</div>
             <div style={{ height: 200, overflowY: 'auto', background: '#f9f9f9', marginBottom: 8, padding: 8 }}>
               {messages.map((msg, idx) => (
-                <div key={idx} style={{ textAlign: msg.self ? 'right' : 'left', color: msg.self ? '#10b981' : '#333' }}>
+                <div key={idx} style={{ textAlign: msg.from === user?._id ? 'right' : 'left', color: msg.from === user?._id ? '#10b981' : '#333' }}>
                   <span style={{ fontSize: 12, color: '#aaa' }}>{msg.from === user?._id ? 'You' : 'Them'}: </span>
-                  {msg.message}
+                  {msg.content || msg.message}
                 </div>
               ))}
               <div ref={messagesEndRef} />

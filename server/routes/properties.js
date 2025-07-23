@@ -13,14 +13,14 @@ const {
   getFavorites,
 } = require('../controllers/properties');
 const { protect, authorize, isLandlord } = require('../middleware/auth');
-const { uploadMultiple } = require('../utils/upload');
+const { uploadSingle, uploadMultiple } = require('../utils/upload');
 
 const router = express.Router();
 
 // Validation rules
 const propertyValidation = [
   body('title').trim().isLength({ min: 5, max: 100 }).withMessage('Title must be between 5 and 100 characters'),
-  body('description').isLength({ min: 20, max: 2000 }).withMessage('Description must be between 20 and 2000 characters'),
+  body('description').optional(),
   body('price').isNumeric().withMessage('Price must be a number'),
   body('location.area').notEmpty().withMessage('Area is required'),
   body('location.address').notEmpty().withMessage('Address is required'),
@@ -33,23 +33,23 @@ const propertyValidation = [
   body('availableFrom').isISO8601().withMessage('Please provide a valid date'),
 ];
 
-// Public routes
-router.get('/', getProperties);
+// --- PUBLIC ROUTES (must come first) ---
 router.get('/search', searchProperties);
+router.get('/', getProperties);
 router.get('/:id', getProperty);
 
-// Protected routes
+// --- PROTECTED ROUTES ---
 router.use(protect);
 
+// Favorites (cart) routes - must come before any dynamic :id routes
+router.get('/favorites', getFavorites);
+router.post('/:id/favorite', addToFavorites);
+router.delete('/:id/favorite', removeFromFavorites);
+
 // Landlord only routes
-router.post('/', isLandlord, propertyValidation, createProperty);
+router.post('/', isLandlord, uploadMultiple, propertyValidation, createProperty);
 router.put('/:id', isLandlord, propertyValidation, updateProperty);
 router.delete('/:id', isLandlord, deleteProperty);
 router.put('/:id/images', isLandlord, uploadMultiple, uploadPropertyImages);
-
-// Favorites (cart) routes
-router.post('/:id/favorite', protect, addToFavorites);
-router.delete('/:id/favorite', protect, removeFromFavorites);
-router.get('/favorites', protect, getFavorites);
 
 module.exports = router; 
