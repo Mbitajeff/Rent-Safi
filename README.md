@@ -128,10 +128,10 @@ cd Rent-Safi
 
 ```mermaid
 flowchart TD
-  A[Frontend (Vercel)] -- REST/Socket.io --> B[Backend (Render)]
-  B -- MongoDB Driver --> C[(MongoDB Atlas)]
-  A -- Auth (JWT) --> B
-  B -- Static/Image Uploads --> D[(Cloudinary)]
+  A["Frontend (Vercel)"] -- "REST/Socket.io" --> B["Backend (Render)"]
+  B -- "MongoDB Driver" --> C[("MongoDB Atlas")]
+  A -- "Auth (JWT)" --> B
+  B -- "Static/Image Uploads" --> D[("Cloudinary")]
 ```
 
 ---
